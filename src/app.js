@@ -23,6 +23,12 @@ app.get('/', (req, res) =>{
     });
 
 });
+// Configurar el puerto dinámico para Render
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
 
 //agregar por cada uno de los routers. 
 app.use('/api/material_sucursal', materialSucursalRouters); //Retiré el .routers al final
