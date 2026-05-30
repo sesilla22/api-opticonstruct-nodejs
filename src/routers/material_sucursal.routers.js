@@ -18,4 +18,10 @@ router.get('/', verificarToken, material_sucursalController.obtenerMateriales);
 // Eliminar uno (usa :id porque necesitamos saber cuál borrar)
 router.delete('/:id', verificarToken, material_sucursalController.eliminarMaterial);
 
+/**
+ * @openapi
+ * description: Lista de materiales obtenida exitosamente
+ */
+router.get('/', materialController.getAll);
+
 module.exports = router;

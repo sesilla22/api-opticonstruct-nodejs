@@ -15,10 +15,17 @@ const authRouters = require('./routers/auth.routers'); //
 const app = express();
 
 app.use(cors());
+
 app.use(express.json());
 app.use(express.static('public'));
+
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.config'); // Ajusta la ruta si es necesario
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) =>{
     res.json({
