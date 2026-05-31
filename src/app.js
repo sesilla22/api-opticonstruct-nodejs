@@ -9,22 +9,29 @@ const sucursalRouters= require('./routers/sucursal.routers.js');
 const materialRouters= require('./routers/material.routers.js');
 const materiales_planosRouters = require('./routers/materiales_planos.routers.js');
 
+
 const authRouters = require('./routers/auth.routers'); //
 
 const app = express();
+
+
 app.use(cors());
 
 //Librerias que agregué para swagger y vistas
 app.use(express.json());
 app.use(express.static('public'));
 
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.config'); // Ajusta la ruta si es necesario
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) =>{
     res.json({
-        mensaje: 'API de nómina híbrida funcionando correctamente'
+        mensaje: 'API funcionando correctamente'
     });
 
 });
