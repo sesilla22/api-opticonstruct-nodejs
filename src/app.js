@@ -24,14 +24,14 @@ app.use(express.static('public')); //para que funcione mi index
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger.config'); // Ajusta la ruta si es necesario
+//const swaggerUi = require('swagger-ui-express');
+//const swaggerSpec = require('./swagger.config'); // Ajusta la ruta si es necesario
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) =>{
     res.json({
-        mensaje: 'API de nómina híbrida funcionando correctamente'
+        mensaje: 'API de Opticonstruct funcionando correctamente'
     });
 
 });
