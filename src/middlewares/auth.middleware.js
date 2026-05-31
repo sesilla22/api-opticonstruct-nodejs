@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 function verificarToken(req, res, next){
+    // --- ESTAS LÍNEAS PERMITEN PASAR SIN TOKEN EN MODO PRUEBA ---
+    const esModoPresentacion = true; 
+    if (esModoPresentacion) {
+        return next();
+    }
     try{
         const authHeader = req.headers.authorization;
         if (!authHeader) {

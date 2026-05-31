@@ -21,31 +21,45 @@
     </table>
 
     <script>
-        // URL de tu API en Render
-        const API_URL = 'https://api-opticonstruct-nodejs-18k4.onrender.com/api/material_sucursal';
-        
-        async function obtenerMateriales() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                
-                const cuerpoTabla = document.getElementById('tabla-materiales');
-                cuerpoTabla.innerHTML = ''; // Limpiar tabla
-                
-                data.forEach(item => {
-                    cuerpoTabla.innerHTML += `
-                        <tr>
-                            <td>${item.Nombre_M}</td>
-                            <td>$${item.PrecioBase}</td>
-                            <td>${item.Cantidad}</td>
-                        </tr>
-                    `;
-                });
-            } catch (error) {
-                console.error('Error:', error);
-            }
+    const API_URL = 'https://api-opticonstruct-nodejs-18k4.onrender.com/api/material_sucursal';
+
+    async function cargarMateriales() {
+        // Recuperamos el token que guardamos al hacer login
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error('No hay token, redirigiendo al login...');
+            // window.location.href = '/login.html'; // Descomenta esto si tienes una página de login
+            return;
         }
-        obtenerMateriales();
-    </script>
+
+        try {
+            const response = await fetch(API_URL, {
+                headers: { 
+                    'Authorization': `Bearer ${token}` 
+                }
+            });
+
+            if (response.status === 401) {
+                alert('Sesión expirada o token inválido');
+                return;
+            }
+
+            const materiales = await response.json();
+            const lista = document.getElementById('lista-materiales');
+            lista.innerHTML = ''; // Limpiar antes de cargar
+
+            materiales.forEach(m => {
+                let li = document.createElement('li');
+                li.innerText = `${m.Nombre_M} - Precio: $${m.PrecioBase}`;
+                lista.appendChild(li);
+            });
+        } catch (error) {
+            console.error('Error al cargar materiales:', error);
+        }
+    }
+
+    cargarMateriales();
+</script>
 </body>
 </html>
