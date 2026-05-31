@@ -16,27 +16,26 @@
                 <th>Cantidad</th>
             </tr>
         </thead>
-        <tbody id="tabla-materiales">
-            </tbody>
+        <tbody id="lista-materiales"> 
+        </tbody>
     </table>
 
     <script>
     const API_URL = 'https://api-opticonstruct-nodejs-18k4.onrender.com/api/material_sucursal';
 
     async function cargarMateriales() {
-        // Recuperamos el token que guardamos al hacer login
         const token = localStorage.getItem('token');
 
+        // Nota: Si estás en modo presentación (MODO_DEMO = true), 
+        // puedes comentar este if para que no te pida token.
         if (!token) {
-            console.error('No hay token, redirigiendo al login...');
-            // window.location.href = '/login.html'; // Descomenta esto si tienes una página de login
-            return;
+            console.warn('No hay token, intentando cargar sin autenticación...');
         }
 
         try {
             const response = await fetch(API_URL, {
                 headers: { 
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': token ? `Bearer ${token}` : '' 
                 }
             });
 
@@ -46,20 +45,26 @@
             }
 
             const materiales = await response.json();
-            const lista = document.getElementById('lista-materiales');
-            lista.innerHTML = ''; // Limpiar antes de cargar
+            const tablaCuerpo = document.getElementById('lista-materiales');
+            tablaCuerpo.innerHTML = ''; // Limpiar antes de cargar
 
+            // AQUÍ CORREGIMOS EL FOREACH PARA QUE PINTE FILAS EN LA TABLA
             materiales.forEach(m => {
-                let li = document.createElement('li');
-                li.innerText = `${m.Nombre_M} - Precio: $${m.PrecioBase}`;
-                lista.appendChild(li);
+                let fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${m.Nombre_M}</td>
+                    <td>$${m.PrecioBase}</td>
+                    <td>${m.Cantidad}</td>
+                `;
+                tablaCuerpo.appendChild(fila);
             });
         } catch (error) {
             console.error('Error al cargar materiales:', error);
+            alert('Error al conectar con el servidor');
         }
     }
 
     cargarMateriales();
-</script>
+    </script>
 </body>
 </html>
