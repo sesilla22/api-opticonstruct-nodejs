@@ -14,8 +14,10 @@ const authRouters = require('./routers/auth.routers'); //
 
 const app = express();
 
+
 app.use(cors());
 
+//Librerias que agregué para swagger y vistas
 app.use(express.json());
 app.use(express.static('public'));
 
