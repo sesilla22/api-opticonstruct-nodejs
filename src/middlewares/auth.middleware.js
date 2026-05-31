@@ -6,6 +6,11 @@ function verificarToken(req, res, next){
     if (esModoPresentacion) {
         return next();
     }
+    const MODO_DEMO = true; 
+    
+    if (MODO_DEMO) {
+        return next(); // Te deja pasar sin pedir token
+    }
     try{
         const authHeader = req.headers.authorization;
         if (!authHeader) {
